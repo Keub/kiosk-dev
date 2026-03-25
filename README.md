@@ -1,2 +1,0 @@
-# kiosk-dev
-Kiosk dev
