@@ -2,10 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <base href="/kiosk-dev/" />
     <script>
+      var pathPrefix = '/kiosk-dev';
       var search = window.location.search;
       var hash = window.location.hash;
-      window.location.replace(window.location.origin + '/' + (search ? search : '') + (hash ? hash : ''));
+      window.location.replace(window.location.origin + pathPrefix + '/' + (search ? search : '') + (hash ? hash : ''));
     </script>
   </head>
   <body></body>
