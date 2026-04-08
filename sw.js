@@ -5,7 +5,7 @@ const PRECACHE = [
   '/index.html',
 ];
 
-/ Install: cache the app shell
+// Install: cache the app shell
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE).then((cache) => cache.addAll(PRECACHE))
@@ -13,7 +13,7 @@ self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
-/ Activate: delete old caches
+// Activate: delete old caches
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
@@ -23,11 +23,11 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-/ Fetch: cache-first for same-origin assets, network-only for external (Supabase API)
+// Fetch: cache-first for same-origin assets, network-only for external (Supabase API)
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
-  / Let Supabase and all external API calls go straight to the network
+  // Let Supabase and all external API calls go straight to the network
   if (url.origin !== self.location.origin) {
     return;
   }
