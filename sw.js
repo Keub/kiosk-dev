@@ -1,4 +1,4 @@
-const CACHE = 'keub-kiosk-v1';
+const CACHE = 'keub-kiosk-v2';
 
 const PRECACHE = [
   '/',
