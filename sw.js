@@ -1,4 +1,4 @@
-const CACHE = 'keub-kiosk-v2';
+const CACHE = 'keub-kiosk-v3';
 
 const PRECACHE = [
   '/',
@@ -23,12 +23,28 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Fetch: cache-first for same-origin assets, network-only for external (Supabase API)
+// Fetch: navigation is network-first so a deployed kiosk does not get stuck on
+// an old app shell. Fingerprinted static assets remain cache-first.
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
   // Let Supabase and all external API calls go straight to the network
   if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE).then((cache) => cache.put('/index.html', clone));
+          }
+          return res;
+        })
+        .catch(() => caches.match('/index.html'))
+    );
     return;
   }
 
